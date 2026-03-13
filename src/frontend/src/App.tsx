@@ -1,6 +1,4 @@
 import {
-  ChevronLeft,
-  ChevronRight,
   Clock,
   Crown,
   Heart,
@@ -18,39 +16,10 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
 // ============ DATA ============
-
-const heroSlides = [
-  {
-    image:
-      "/assets/uploads/Screenshot_2026-03-13-10-29-05-85_3d9111e2d3171bf4882369f490c087b4-1.jpg",
-    title: "Professional Hair & Beauty Services in Rudrapur",
-    badge: "WELCOME TO MAKEOVER",
-  },
-  {
-    image: "/assets/generated/hero-1-haircut.dim_1920x1080.jpg",
-    title: "Expert Hair Cutting",
-    badge: "PROFESSIONAL STYLISTS",
-  },
-  {
-    image: "/assets/generated/hero-2-styling.dim_1920x1080.jpg",
-    title: "Premium Hair Styling",
-    badge: "SIGNATURE STYLES",
-  },
-  {
-    image: "/assets/generated/hero-3-facial.dim_1920x1080.jpg",
-    title: "Luxury Facial Treatment",
-    badge: "GLOW TREATMENTS",
-  },
-  {
-    image: "/assets/generated/hero-4-makeup.dim_1920x1080.jpg",
-    title: "Bridal & Party Makeup",
-    badge: "FLAWLESS ARTISTRY",
-  },
-];
 
 const services = [
   {
@@ -165,7 +134,7 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-// ============ NAV LINK (hover handled via CSS class) ============
+// ============ NAV LINK ============
 
 function NavLink({
   href,
@@ -199,126 +168,71 @@ function NavLink({
   );
 }
 
-// ============ HERO SLIDER ============
+// ============ HERO SECTION ============
 
-function HeroSlider() {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState<"next" | "prev">("next");
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const goTo = useCallback(
-    (index: number, dir: "next" | "prev") => {
-      if (isAnimating) return;
-      setIsAnimating(true);
-      setDirection(dir);
-      setCurrent(index);
-      setTimeout(() => setIsAnimating(false), 700);
-    },
-    [isAnimating],
-  );
-
-  const goNext = useCallback(() => {
-    goTo((current + 1) % heroSlides.length, "next");
-  }, [current, goTo]);
-
-  const goPrev = useCallback(() => {
-    goTo((current - 1 + heroSlides.length) % heroSlides.length, "prev");
-  }, [current, goTo]);
-
-  useEffect(() => {
-    if (isPaused) return;
-    intervalRef.current = setInterval(goNext, 3500);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [goNext, isPaused]);
-
+function HeroSection() {
   return (
     <section
       id="home"
-      className="hero-slider"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100vh",
+        minHeight: "600px",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+      }}
     >
-      {heroSlides.map((slide, slideIndex) => {
-        const isActive = slideIndex === current;
-        let transform = "translateX(100%)";
-        if (isActive) {
-          transform = "translateX(0%)";
-        } else if (
-          direction === "next" &&
-          slideIndex === (current - 1 + heroSlides.length) % heroSlides.length
-        ) {
-          transform = "translateX(-100%)";
-        } else if (
-          direction === "prev" &&
-          slideIndex === (current + 1) % heroSlides.length
-        ) {
-          transform = "translateX(100%)";
-        }
+      {/* Background Image */}
+      <img
+        src="/assets/uploads/Screenshot_2026-03-13-10-29-05-85_3d9111e2d3171bf4882369f490c087b4-1.jpg"
+        alt="Makeover Unisex Salon"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
 
-        return (
-          <div
-            key={slide.title}
-            className="hero-slide"
-            style={{
-              transform,
-              opacity: isActive ? 1 : 0,
-              zIndex: isActive ? 10 : 1,
-              transition:
-                "transform 0.7s ease-in-out, opacity 0.7s ease-in-out",
-            }}
-          >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center center",
-              }}
-            />
-            <div
-              className="hero-slide-overlay"
-              style={{
-                background:
-                  "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.75) 100%)",
-              }}
-            />
-          </div>
-        );
-      })}
+      {/* Dark Overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.55)",
+        }}
+      />
 
       {/* Content */}
-      <div className="hero-content" style={{ zIndex: 20 }}>
-        <div
-          className="inline-block mb-4 px-4 py-1.5 text-xs font-bold tracking-[0.25em] uppercase"
-          style={{
-            background: "oklch(0.72 0.15 85 / 0.15)",
-            border: "1px solid oklch(0.72 0.15 85 / 0.5)",
-            color: "oklch(0.72 0.15 85)",
-            borderRadius: "2px",
-            backdropFilter: "blur(4px)",
-          }}
-        >
-          {heroSlides[current].badge}
-        </div>
-
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          padding: "1rem",
+        }}
+      >
         <h1
-          className="font-display font-bold text-white mb-3"
-          style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", lineHeight: 1.1 }}
+          className="font-display font-bold text-white"
+          style={{
+            fontSize: "clamp(2.2rem, 5vw, 4rem)",
+            lineHeight: 1.1,
+            marginBottom: "1rem",
+          }}
         >
           Makeover <span className="gold-shimmer-text">Unisex Salon</span>
         </h1>
 
         <p
-          className="mb-8 max-w-xl"
           style={{
-            fontSize: "clamp(0.95rem, 2vw, 1.2rem)",
             color: "oklch(0.88 0.03 88)",
+            fontSize: "clamp(0.95rem, 2vw, 1.2rem)",
+            marginBottom: "2rem",
             opacity: 0.95,
           }}
         >
@@ -347,50 +261,6 @@ function HeroSlider() {
             View Location
           </a>
         </div>
-      </div>
-
-      {/* Arrows */}
-      <button
-        type="button"
-        className="hero-arrow"
-        style={{ left: "1.25rem" }}
-        onClick={goPrev}
-        aria-label="Previous slide"
-        data-ocid="hero.prev_button"
-      >
-        <ChevronLeft size={22} />
-      </button>
-      <button
-        type="button"
-        className="hero-arrow"
-        style={{ right: "1.25rem" }}
-        onClick={goNext}
-        aria-label="Next slide"
-        data-ocid="hero.next_button"
-      >
-        <ChevronRight size={22} />
-      </button>
-
-      {/* Dots */}
-      <div
-        className="flex gap-2 items-center justify-center"
-        style={{
-          position: "absolute",
-          bottom: "2rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 20,
-        }}
-      >
-        {heroSlides.map((slide, dotIndex) => (
-          <button
-            key={slide.title}
-            className={`hero-dot${dotIndex === current ? " active" : ""}`}
-            type="button"
-            onClick={() => goTo(dotIndex, dotIndex > current ? "next" : "prev")}
-            aria-label={`Go to slide ${dotIndex + 1}`}
-          />
-        ))}
       </div>
     </section>
   );
@@ -1327,7 +1197,7 @@ export default function App() {
     >
       <Navbar />
       <main>
-        <HeroSlider />
+        <HeroSection />
         <AboutSection />
         <ServicesSection />
         <WhyChooseUs />
