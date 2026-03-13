@@ -25,32 +25,28 @@ import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
 const heroSlides = [
   {
-    image: "/assets/generated/hero-interior.dim_1920x1080.jpg",
-    title: "Luxury Salon Experience",
-    badge: "PREMIUM BEAUTY SERVICES",
+    image:
+      "/assets/uploads/Screenshot_2026-03-13-10-29-05-85_3d9111e2d3171bf4882369f490c087b4-1.jpg",
+    title: "Professional Hair & Beauty Services in Rudrapur",
+    badge: "WELCOME TO MAKEOVER",
   },
   {
-    image: "/assets/generated/hero-haircut.dim_1920x1080.jpg",
+    image: "/assets/generated/hero-1-haircut.dim_1920x1080.jpg",
     title: "Expert Hair Cutting",
     badge: "PROFESSIONAL STYLISTS",
   },
   {
-    image: "/assets/generated/hero-styling.dim_1920x1080.jpg",
+    image: "/assets/generated/hero-2-styling.dim_1920x1080.jpg",
     title: "Premium Hair Styling",
     badge: "SIGNATURE STYLES",
   },
   {
-    image: "/assets/generated/hero-coloring.dim_1920x1080.jpg",
-    title: "Hair Coloring & Highlights",
-    badge: "VIBRANT COLORS",
-  },
-  {
-    image: "/assets/generated/hero-facial.dim_1920x1080.jpg",
-    title: "Facial & Skin Care",
+    image: "/assets/generated/hero-3-facial.dim_1920x1080.jpg",
+    title: "Luxury Facial Treatment",
     badge: "GLOW TREATMENTS",
   },
   {
-    image: "/assets/generated/hero-makeup.dim_1920x1080.jpg",
+    image: "/assets/generated/hero-4-makeup.dim_1920x1080.jpg",
     title: "Bridal & Party Makeup",
     badge: "FLAWLESS ARTISTRY",
   },
@@ -275,8 +271,23 @@ function HeroSlider() {
                 "transform 0.7s ease-in-out, opacity 0.7s ease-in-out",
             }}
           >
-            <img src={slide.image} alt={slide.title} />
-            <div className="hero-slide-overlay" />
+            <img
+              src={slide.image}
+              alt={slide.title}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center center",
+              }}
+            />
+            <div
+              className="hero-slide-overlay"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.75) 100%)",
+              }}
+            />
           </div>
         );
       })}
@@ -304,21 +315,11 @@ function HeroSlider() {
         </h1>
 
         <p
-          className="mb-3 font-display italic"
-          style={{
-            fontSize: "clamp(1rem, 2.5vw, 1.4rem)",
-            color: "oklch(0.72 0.15 85)",
-            opacity: 0.9,
-          }}
-        >
-          {heroSlides[current].title}
-        </p>
-
-        <p
           className="mb-8 max-w-xl"
           style={{
-            fontSize: "clamp(0.9rem, 1.5vw, 1.1rem)",
-            color: "oklch(0.85 0.02 88)",
+            fontSize: "clamp(0.95rem, 2vw, 1.2rem)",
+            color: "oklch(0.88 0.03 88)",
+            opacity: 0.95,
           }}
         >
           Professional Hair &amp; Beauty Services in Rudrapur
@@ -598,12 +599,13 @@ function AboutSection() {
               }}
             />
             <img
-              src="/assets/generated/hero-interior.dim_1920x1080.jpg"
+              src="/assets/uploads/Screenshot_2026-03-13-10-29-05-85_3d9111e2d3171bf4882369f490c087b4-1.jpg"
               alt="Makeover Salon Interior"
               className="relative rounded-2xl w-full"
               style={{
                 height: "460px",
                 objectFit: "cover",
+                objectPosition: "center center",
                 border: "1px solid oklch(0.72 0.15 85 / 0.25)",
               }}
             />
@@ -1315,7 +1317,14 @@ function Footer() {
 
 export default function App() {
   return (
-    <div style={{ background: "oklch(0.08 0 0)", minHeight: "100vh" }}>
+    <div
+      style={{
+        background: "oklch(0.08 0 0)",
+        minHeight: "100vh",
+        overflowX: "hidden",
+        width: "100%",
+      }}
+    >
       <Navbar />
       <main>
         <HeroSlider />
